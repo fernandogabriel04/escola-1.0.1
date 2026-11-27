@@ -1,8 +1,8 @@
-import {cursosRepository} from "../repositories/cursos.repository.js";
+import {CursosRepository} from "../repository/cursos.repository.js";
 
 export class CursosService {
     constructor() {
-        this.repository = new cursosRepository();
+        this.repository = new CursosRepository();
     }
     async listarTodos() {
         return await this.repository.listarTodos();

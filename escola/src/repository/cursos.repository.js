@@ -2,8 +2,8 @@ import {cursos as sementeCursos} from "../dados/cursos.js";
 
 export class CursosRepository {
     constructor() {
-        this.cursos = {...sementeCursos};
-        this.proximoId = this.cursos.reduce((m, c)=>Math.max(c, c.id), 0) + 1;
+        this.cursos = [...sementeCursos];
+        this.proximoId = this.cursos.reduce((m, c)=>Math.max(m, c.id), 0) + 1;
     }
     async listarTodos(){
         return this.cursos;

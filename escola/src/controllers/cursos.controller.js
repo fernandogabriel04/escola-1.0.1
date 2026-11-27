@@ -1,16 +1,16 @@
-import { CursosService } from "../services/cursos.service.js";
+import { CursosService } from "../services/cursos.services.js";
 export class CursosController {
     constructor() {
         this.service = new CursosService();
     }
 
     async listarCursos(req, res) {
-        res.json(await this.service.listarCursos());
+        res.json(await this.service.listarTodos());
     }
 
     async buscarCursoPorId(req, res) {
         const id = Number(req.params.id);
-        const curso = await this.service.buscarCursoPorId(id);
+        const curso = await this.service.buscarPorId(id);
         res.json(curso);
     }
 
