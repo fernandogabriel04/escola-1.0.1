@@ -1,15 +1,16 @@
 import { Router } from "express";
-import { listarCursos, buscarCursoPorId, criarCurso, atualizarCurso } from "../controllers/cursos.controller.js";
+import { CursosController } from "../controllers/cursos.controller.js";
 import { validarCurso } from "../middlewares/validacao.middleware.js";
 
 const router = Router();
+const cursosController = new CursosController();
 
-router.get("/", listarCursos);
+router.get("/", cursosController.listarCursos);
 
-router.use("/:id", buscarCursoPorId);
+router.use("/:id", cursosController.buscarCursoPorId);
 
-router.post("/", validarCurso, criarCurso);
+router.post("/", validarCurso, cursosController.criarCurso);
 
-router.put("/:id", validarCurso, atualizarCurso);
+router.put("/:id", validarCurso, cursosController.atualizarCurso);
 
 export { router as cursosRouter };

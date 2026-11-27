@@ -1,40 +1,29 @@
-import { cursos } from "../dados/cursos.js";
-
-export function listarCursos(req, res) {
-    res.json(cursos);
-};
-
-export function buscarCursoPorId(req, res) {
-    const id = Number(req.params.id);
-    const curso = cursos.find(c => c.id === id);
-    if (!curso) {
-        return res.status(404).json({ error: "Curso não encontrado" });
+import { CursosService } from "../services/cursos.service.js";
+export class CursosController {
+    constructor() {
+        this.service = new CursosService();
     }
-    res.json(curso);
-};
 
-export function criarCurso(req, res) {
-    const { nome, cargaHoraria, nivel, preco, ativo } = req.body;
-    const novo = {
-        id: cursos.length ? cursos[cursos.length - 1].id + 1 : 1,
-        nome, cargaHoraria, nivel, preco, ativo
-    };
-    cursos.push(novo);
-    res.status(201).json(novo);
+    async listarCursos(req, res) {
+        res.json(await this.service.listarCursos());
+    }
+
+    async buscarCursoPorId(req, res) {
+        const id = Number(req.params.id);
+        const curso = await this.service.buscarCursoPorId(id);
+        res.json(curso);
+    }
+
+    async criarCurso(req, res) {
+        const dados = req.body;
+        const novo = await this.service.criar(dados);
+        res.status(201).json(novo);
+    }
+
+    async atualizarCurso(req, res) {
+        const id = Number(req.params.id);
+        const dados = req.body;
+        const atualizado = await this.service.atualizar(id, dados);
+        res.json(atualizado);
+    }
 }
-
-export function atualizarCurso(req, res) {
-    const id = Number(req.params.id);
-    const curso = cursos.find(c => c.id === id);
-    if (!curso) {
-        return res.status(404).json({ error: "Curso não encontrado" });
-    } else {
-        const { nome, cargaHoraria, nivel, preco, ativo } = req.body;
-        curso.nome = nome;
-        curso.cargaHoraria = cargaHoraria;
-        curso.nivel = nivel;
-        curso.preco = preco;
-        curso.ativo = ativo;
-        res.status(200).json(curso);
-    }
-};
